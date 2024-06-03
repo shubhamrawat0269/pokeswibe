@@ -1,7 +1,11 @@
-import React from "react";
+import { PokemonCards } from "../../components";
 
 const Home = () => {
-  return <div>Home Page</div>;
+  return (
+    <div>
+      <PokemonCards />
+    </div>
+  );
 };
 
 export default Home;
