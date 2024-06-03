@@ -1,10 +1,10 @@
-import TinderCard from "react-tinder-card";
+import { data } from "../../dummy/Data";
 import { PokemonCards } from "../../components";
 
 const Home = () => {
   return (
     <div>
-      <PokemonCards />
+      <PokemonCards data={data} />
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { data } from "../dummy/Data";
-import { createContext } from "react";
+import { createContext, useState } from "react";
 
 const GlobalContext = createContext();
 
