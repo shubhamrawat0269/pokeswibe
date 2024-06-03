@@ -5,7 +5,10 @@ const GlobalContext = createContext();
 
 const GlobalProvider = ({ children }) => {
   const [currentIndex, setCurrentIndex] = useState(data.length - 1);
-  const contexts = { currentIndex, setCurrentIndex };
+  const [theme, setTheme] = useState("");
+
+  const contexts = { currentIndex, setCurrentIndex, theme, setTheme };
+
   return (
     <GlobalContext.Provider value={contexts}>{children}</GlobalContext.Provider>
   );
