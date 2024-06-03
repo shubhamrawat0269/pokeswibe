@@ -50,11 +50,11 @@ const PokemonCards = ({ data }) => {
   };
 
   return (
-    <div className="">
+    <div className="w-inherit h-inherit grid place-items-center">
       {data.map((character, index) => (
         <TinderCard
           ref={childRefs[index]}
-          className="swipe"
+          className="absolute"
           key={character.name}
           onSwipe={(dir) => swiped(dir, character.name, index)}
           onCardLeftScreen={() => outOfFrame(character.name, index)}
@@ -93,18 +93,21 @@ const PokemonCards = ({ data }) => {
             </div>
             <div className="flex flex-wrap justify-center">
               <button
+                className="p-2.5 bg-blue-600 rounded-md border-none text-white hover:scale-105 transition-all m-2.5 font-bold w-24"
                 style={{ backgroundColor: !canSwipe && "#c3c4d3" }}
                 onClick={() => swipe("left")}
               >
                 Dislike
               </button>
               <button
+                className="p-2.5 rounded-md border-none text-white hover:scale-105  transition-all m-2.5 font-bold w-24"
                 style={{ backgroundColor: !canGoBack && "#c3c4d3" }}
                 onClick={() => goBack()}
               >
                 Undo
               </button>
               <button
+                className="p-2.5 rounded-md bg-blue-600 border-none text-white hover:scale-105  transition-all m-2.5 font-bold w-24"
                 style={{ backgroundColor: !canSwipe && "#c3c4d3" }}
                 onClick={() => swipe("right")}
               >
