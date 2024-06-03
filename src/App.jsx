@@ -1,5 +1,5 @@
 function App() {
-  return <div>Welcome Pokemon</div>;
+  return <div className="underline">Welcome Pokemon</div>;
 }
 
 export default App;
