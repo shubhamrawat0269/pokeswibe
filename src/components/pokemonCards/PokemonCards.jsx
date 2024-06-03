@@ -59,14 +59,23 @@ const PokemonCards = ({ data }) => {
           onSwipe={(dir) => swiped(dir, character.name, index)}
           onCardLeftScreen={() => outOfFrame(character.name, index)}
         >
-          <div className=" bg-slate-200 rounded-2xl border-black border-2 bg-cover bg-center">
-            <figure className="flex flex-col gap-2 justify-center items-center">
+          <div className=" bg-slate-200 dark:bg-neutral-900 rounded-2xl border-black border-2 bg-cover bg-center">
+            <figure className="flex flex-col gap-2 justify-center items-center relative">
               <img
-                className="w-[12vw] aspect-square"
+                className="w-[20rem] aspect-square"
                 src={character.url}
                 alt={character.name}
               />
-              <figcaption className="text-3xl">{character.name}</figcaption>
+              <figcaption className="text-4xl dark:text-white">
+                {character.name}
+              </figcaption>
+              <div>
+                <img
+                  className="w-[5rem] absolute top-1 right-3"
+                  src="like.png"
+                  alt="likeImg"
+                />
+              </div>
             </figure>
             <div className="flex justify-around items-center gap-1 my-5">
               <div className="bg-orange-500 py-1 px-4 text-orange-100 rounded-lg">

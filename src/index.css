@@ -8,6 +8,10 @@
     font-style: normal;
 }
 
+html {
+    overflow-x: hidden;
+}
+
 .swipe {
     /* here i'll properly align cards layered wise ss */
     /* position: absolute; */
@@ -24,7 +28,7 @@ button {
     transition: 200ms;
     margin: 10px;
     font-weight: bolder;
-    width: 160px;
+    width: 100px;
 }
 
 button:hover {
