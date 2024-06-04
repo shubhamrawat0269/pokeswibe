@@ -16,13 +16,13 @@ const FavouriteCards = () => {
     <div className="w-screen h-screen">
       <h2 className="text-5xl text-center my-4">My Favourite Card</h2>
 
-      <div className="flex flex-col md:flex-row gap-4 overflow-y-auto m-5">
+      <div className="flex flex-col md:p-[1rem] md:flex-row gap-4 overflow-y-auto">
         {favouritesList.length > 0 ? (
           favouritesList?.map((character) => {
             return (
               <div
                 key={character?.id}
-                className="w-[70vw] mx-auto md:mx-0 md:w-[14vw] p-4 dark:bg-neutral-900 rounded-lg bg-teal-400 bg-cover bg-center"
+                className="w-[70vw] mx-auto md:mx-0 md:w-[18rem] p-4 dark:bg-neutral-900 rounded-lg bg-teal-400 bg-cover bg-center"
               >
                 <figure className="flex flex-col gap-2 justify-center items-center relative">
                   <img
