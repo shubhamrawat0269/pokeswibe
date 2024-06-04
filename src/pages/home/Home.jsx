@@ -21,7 +21,7 @@ const Home = () => {
   return (
     <div
       id="primary__section"
-      className="w-screen h-screen grid place-items-center relative bg-sky-50"
+      className="w-screen h-screen grid place-items-center relative bg-sky-50 overflow-hidden"
     >
       <PokemonCards />
 

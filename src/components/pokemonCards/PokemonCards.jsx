@@ -1,6 +1,7 @@
 import TinderCard from "react-tinder-card";
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useGlobalContext } from "../../hooks/useGlobalContext";
+import { useGenerateRandomId } from "../../hooks/useGenerateRandomId";
 
 const PokemonCards = () => {
   // {
@@ -11,6 +12,16 @@ const PokemonCards = () => {
   const [currentIndex, setCurrentIndex] = useState(19);
   const currentIndexRef = useRef(currentIndex);
   const [lastDirection, setLastDirection] = useState();
+  const optionsColor = [
+    "#3572EF",
+    "#254336",
+    "#850F8D",
+    "#40A578",
+    "#A91D3A",
+    "#153448",
+    "#FFC470",
+    "#FDE767",
+  ];
 
   const childRefs = useMemo(() => {
     if (pokeData.length) {
@@ -43,6 +54,11 @@ const PokemonCards = () => {
       if (dir === "right") {
         // console.log(data);
         setFavouriteList([...favouritesList, data]);
+
+        localStorage.setItem(
+          "favourites",
+          JSON.stringify([...favouritesList, data])
+        );
       }
       await childRefs[currentIndex].current.swipe(dir); // Swipe the card!
     }
@@ -58,7 +74,7 @@ const PokemonCards = () => {
           onSwipe={(dir) => swiped(dir, character?.data?.name, index)}
           onCardLeftScreen={() => outOfFrame(character?.data?.name, index)}
         >
-          <div className=" bg-slate-200 p-2 dark:bg-neutral-900 rounded-2xl border-black border-2 bg-cover bg-center">
+          <div className=" bg-slate-200 p-2 dark:bg-neutral-900 rounded-2xl shadow-xl bg-cover bg-center">
             <figure className="flex flex-col gap-2 justify-center items-center relative">
               <img
                 className="w-[20rem] aspect-square"
@@ -66,11 +82,11 @@ const PokemonCards = () => {
                 alt={character?.data?.name}
               />
               <figcaption className="text-4xl dark:text-white">
-                {character?.data?.name}
+                {(character?.data?.name).toUpperCase()}
               </figcaption>
               <div>
                 <img
-                  className="w-[5rem] absolute top-1 right-3"
+                  className="w-[4rem] absolute top-1 right-1"
                   src="like.png"
                   alt="likeImg"
                 />
@@ -80,8 +96,11 @@ const PokemonCards = () => {
               {character?.data?.abilities.map((poke, id) => {
                 return (
                   <div
-                    className="bg-orange-500 py-1 px-4 text-orange-100 rounded-lg"
+                    className="py-1 px-4 rounded-lg text-white"
                     key={id}
+                    style={{
+                      background: `${optionsColor[useGenerateRandomId()]}`,
+                    }}
                   >
                     {poke?.ability?.name}
                   </div>
@@ -90,14 +109,14 @@ const PokemonCards = () => {
             </div>
             <div className="flex flex-wrap justify-between">
               <button
-                className="p-2.5 bg-blue-600 rounded-md border-none text-white hover:scale-105 transition-all m-2.5 font-bold w-24"
+                className="p-2.5 bg-teal-700 rounded-md border-none text-white hover:scale-105 transition-all m-2.5 font-bold w-36"
                 style={{ backgroundColor: !canSwipe && "#c3c4d3" }}
                 onClick={() => swipe("left")}
               >
                 Dislike
               </button>
               <button
-                className="p-2.5 rounded-md bg-blue-600 border-none text-white hover:scale-105  transition-all m-2.5 font-bold w-24"
+                className="p-2.5 rounded-md bg-cyan-900 border-none text-white hover:scale-105  transition-all m-2.5 font-bold w-36"
                 style={{ backgroundColor: !canSwipe && "#c3c4d3" }}
                 onClick={() => swipe("right", character?.data)}
               >

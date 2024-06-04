@@ -1,3 +1,3 @@
 export const useGenerateRandomId = () => {
-  return Math.floor(Math.random() * 20);
+  return Math.floor(Math.random() * 8);
 };
