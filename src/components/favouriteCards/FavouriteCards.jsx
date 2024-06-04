@@ -16,7 +16,7 @@ const FavouriteCards = () => {
     <div className="w-screen h-screen">
       <h2 className="text-5xl text-center my-4">My Favourite Card</h2>
 
-      <div className="flex flex-col md:p-[1rem] md:flex-row gap-4 overflow-y-auto">
+      <div className="flex flex-col flex-grow md:p-[1rem] md:flex-row gap-4 overflow-y-auto">
         {favouritesList.length > 0 ? (
           favouritesList?.map((character) => {
             return (
