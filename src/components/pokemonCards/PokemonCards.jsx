@@ -26,10 +26,8 @@ const PokemonCards = () => {
     currentIndexRef.current = val;
   };
 
-  const canGoBack = currentIndex < pokeData.length - 1;
   const canSwipe = currentIndex >= 0;
 
-  // set last direction and decrease current index
   const swiped = (direction, nameToDelete, index) => {
     setLastDirection(direction);
     updateCurrentIndex(index - 1);
