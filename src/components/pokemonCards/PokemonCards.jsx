@@ -1,24 +1,25 @@
 import TinderCard from "react-tinder-card";
+import React, { useMemo, useRef, useState } from "react";
 import { useGlobalContext } from "../../hooks/useGlobalContext";
-import { createRef, useMemo, useRef, useState } from "react";
 
 const PokemonCards = () => {
   // {
-  //   ref : image || name || abilities || types
+  //   ref used : image || name || abilities || types
   // }
 
-  const { currentIndex, setCurrentIndex, pokeData, getPokeData } =
-    useGlobalContext();
+  const { pokeData, favouritesList, setFavouriteList } = useGlobalContext();
+  const [currentIndex, setCurrentIndex] = useState(19);
   const currentIndexRef = useRef(currentIndex);
   const [lastDirection, setLastDirection] = useState();
 
-  const childRefs = useMemo(
-    () =>
-      Array(pokeData.length)
+  const childRefs = useMemo(() => {
+    if (pokeData.length) {
+      return Array(pokeData.length)
         .fill(0)
-        .map((i) => createRef()),
-    []
-  );
+        .map((i) => React.createRef());
+    }
+  }, [pokeData]);
+  // console.log(childRefs);
 
   const updateCurrentIndex = (val) => {
     setCurrentIndex(val);
@@ -39,18 +40,14 @@ const PokemonCards = () => {
     currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
   };
 
-  const swipe = async (dir) => {
+  const swipe = async (dir, data) => {
     if (canSwipe && currentIndex < pokeData.length) {
+      if (dir === "right") {
+        // console.log(data);
+        setFavouriteList([...favouritesList, data]);
+      }
       await childRefs[currentIndex].current.swipe(dir); // Swipe the card!
     }
-  };
-
-  // increase current index and show card
-  const goBack = async () => {
-    if (!canGoBack) return;
-    const newIndex = currentIndex + 1;
-    updateCurrentIndex(newIndex);
-    await childRefs[newIndex].current.restoreCard();
   };
 
   return (
@@ -63,11 +60,10 @@ const PokemonCards = () => {
           onSwipe={(dir) => swiped(dir, character?.data?.name, index)}
           onCardLeftScreen={() => outOfFrame(character?.data?.name, index)}
         >
-          <div className=" bg-slate-200 dark:bg-neutral-900 rounded-2xl border-black border-2 bg-cover bg-center">
+          <div className=" bg-slate-200 p-2 dark:bg-neutral-900 rounded-2xl border-black border-2 bg-cover bg-center">
             <figure className="flex flex-col gap-2 justify-center items-center relative">
               <img
                 className="w-[20rem] aspect-square"
-                // src={character.url}
                 src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${character?.data?.id}.svg`}
                 alt={character?.data?.name}
               />
@@ -94,7 +90,7 @@ const PokemonCards = () => {
                 );
               })}
             </div>
-            <div className="flex flex-wrap justify-center">
+            <div className="flex flex-wrap justify-between">
               <button
                 className="p-2.5 bg-blue-600 rounded-md border-none text-white hover:scale-105 transition-all m-2.5 font-bold w-24"
                 style={{ backgroundColor: !canSwipe && "#c3c4d3" }}
@@ -103,16 +99,9 @@ const PokemonCards = () => {
                 Dislike
               </button>
               <button
-                className="p-2.5 rounded-md border-none text-white hover:scale-105  transition-all m-2.5 font-bold w-24"
-                style={{ backgroundColor: !canGoBack && "#c3c4d3" }}
-                onClick={() => goBack()}
-              >
-                Undo
-              </button>
-              <button
                 className="p-2.5 rounded-md bg-blue-600 border-none text-white hover:scale-105  transition-all m-2.5 font-bold w-24"
                 style={{ backgroundColor: !canSwipe && "#c3c4d3" }}
-                onClick={() => swipe("right")}
+                onClick={() => swipe("right", character?.data)}
               >
                 Like
               </button>

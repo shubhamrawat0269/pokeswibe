@@ -7,7 +7,7 @@ const GlobalContext = createContext();
 const GlobalProvider = ({ children }) => {
   const [theme, setTheme] = useState("");
   const [pokeData, setPokeData] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(data.length - 1);
+  const [favouritesList, setFavouriteList] = useState([]);
 
   const getPokeData = async () => {
     const URL = `https://pokeapi.co/api/v2/pokemon`;
@@ -33,22 +33,16 @@ const GlobalProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (pokeData) {
-      console.log(pokeData);
-    }
-  }, [pokeData]);
-
-  useEffect(() => {
     getPokeData();
   }, []);
 
   const contexts = {
-    currentIndex,
-    setCurrentIndex,
     theme,
     setTheme,
     pokeData,
     getPokeData,
+    favouritesList,
+    setFavouriteList,
   };
 
   return (
