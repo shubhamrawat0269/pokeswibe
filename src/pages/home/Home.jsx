@@ -1,4 +1,4 @@
-import { data } from "../../dummy/Data";
+// import { data } from "../../dummy/Data";
 import { PokemonCards } from "../../components";
 import { MdOutlineLightMode, MdDarkMode } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
@@ -23,7 +23,7 @@ const Home = () => {
       id="primary__section"
       className="w-screen h-screen grid place-items-center relative bg-sky-50"
     >
-      <PokemonCards data={data} />
+      <PokemonCards />
 
       <div className="flex gap-4 items-center absolute top-5 right-5">
         {theme == "dark" ? (

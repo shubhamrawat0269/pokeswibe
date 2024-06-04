@@ -1,15 +1,20 @@
-import { createRef, useMemo, useRef, useState } from "react";
 import TinderCard from "react-tinder-card";
 import { useGlobalContext } from "../../hooks/useGlobalContext";
+import { createRef, useMemo, useRef, useState } from "react";
 
-const PokemonCards = ({ data }) => {
-  const { currentIndex, setCurrentIndex } = useGlobalContext();
+const PokemonCards = () => {
+  // {
+  //   ref : image || name || abilities || types
+  // }
+
+  const { currentIndex, setCurrentIndex, pokeData, getPokeData } =
+    useGlobalContext();
   const currentIndexRef = useRef(currentIndex);
   const [lastDirection, setLastDirection] = useState();
 
   const childRefs = useMemo(
     () =>
-      Array(data.length)
+      Array(pokeData.length)
         .fill(0)
         .map((i) => createRef()),
     []
@@ -20,8 +25,7 @@ const PokemonCards = ({ data }) => {
     currentIndexRef.current = val;
   };
 
-  const canGoBack = currentIndex < data.length - 1;
-
+  const canGoBack = currentIndex < pokeData.length - 1;
   const canSwipe = currentIndex >= 0;
 
   // set last direction and decrease current index
@@ -36,7 +40,7 @@ const PokemonCards = ({ data }) => {
   };
 
   const swipe = async (dir) => {
-    if (canSwipe && currentIndex < data.length) {
+    if (canSwipe && currentIndex < pokeData.length) {
       await childRefs[currentIndex].current.swipe(dir); // Swipe the card!
     }
   };
@@ -51,23 +55,24 @@ const PokemonCards = ({ data }) => {
 
   return (
     <div className="w-inherit h-inherit grid place-items-center">
-      {data.map((character, index) => (
+      {pokeData.map((character, index) => (
         <TinderCard
           ref={childRefs[index]}
           className="absolute"
-          key={character.name}
-          onSwipe={(dir) => swiped(dir, character.name, index)}
-          onCardLeftScreen={() => outOfFrame(character.name, index)}
+          key={character?.data?.name}
+          onSwipe={(dir) => swiped(dir, character?.data?.name, index)}
+          onCardLeftScreen={() => outOfFrame(character?.data?.name, index)}
         >
           <div className=" bg-slate-200 dark:bg-neutral-900 rounded-2xl border-black border-2 bg-cover bg-center">
             <figure className="flex flex-col gap-2 justify-center items-center relative">
               <img
                 className="w-[20rem] aspect-square"
-                src={character.url}
-                alt={character.name}
+                // src={character.url}
+                src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${character?.data?.id}.svg`}
+                alt={character?.data?.name}
               />
               <figcaption className="text-4xl dark:text-white">
-                {character.name}
+                {character?.data?.name}
               </figcaption>
               <div>
                 <img
@@ -78,18 +83,16 @@ const PokemonCards = ({ data }) => {
               </div>
             </figure>
             <div className="flex justify-around items-center gap-1 my-5">
-              <div className="bg-orange-500 py-1 px-4 text-orange-100 rounded-lg">
-                Fire
-              </div>
-              <div className="bg-red-500 py-1 px-4 text-orange-100 rounded-lg">
-                Flying
-              </div>
-              <div className="bg-purple-500 py-1 px-4 text-orange-100 rounded-lg">
-                Blaze
-              </div>
-              <div className="bg-neutral-900 py-1 px-4 text-orange-100 rounded-lg">
-                Solar
-              </div>
+              {character?.data?.abilities.map((poke, id) => {
+                return (
+                  <div
+                    className="bg-orange-500 py-1 px-4 text-orange-100 rounded-lg"
+                    key={id}
+                  >
+                    {poke?.ability?.name}
+                  </div>
+                );
+              })}
             </div>
             <div className="flex flex-wrap justify-center">
               <button
